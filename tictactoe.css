@@ -1,0 +1,16 @@
+#gameBoard {
+   font: 85px arial, sans-serif; 
+   margin: 3px;
+
+   display: grid;
+   justify-content: center;
+   grid-template-columns: 100px 100px 100px;
+   grid-template-rows: 100px 100px 100px;
+   grid-gap: 10px;
+}
+
+#gameBoard > button {
+   background-color: blue;
+   border: 1px solid Blue;
+   text-align: center;
+}
