@@ -20,11 +20,12 @@ function domLoaded() {
 	// Create click-event handlers for each game board button
 	const buttons = getGameBoardButtons();
 	for (let button of buttons) {
+		button.setAttribute("disabled", true);
 		button.addEventListener("click", function () { boardButtonClicked(button); });
 	}
 
 	// Clear the board
-	newGame();
+	//newGame();
 }
 
 // Returns an array of 9 <button> elements that make up the game board. The first 3 
@@ -77,14 +78,27 @@ function checkForWinner() {
 }
 
 function newGame() {
+	document.getElementById("newGameButton").setAttribute("disabled", true);
+	xPlayer = playersName("X");
+	oPlayer = playersName("O");
+	document.getElementById("newGameButton").removeAttribute("disabled");
 	const buttonsOn = document.getElementById("gameBoard")
 	for (let i = 0; i < buttonsOn.children.length; i++) {
 	   	buttonsOn.children[i].innerHTML = "";
 		buttonsOn.children[i].removeAttribute("class");
 		buttonsOn.children[i].removeAttribute("disabled");
 		playerTurn = true;
+		document.getElementById("turnInfo").setAttribute("class", "text-center");
 		document.getElementById("turnInfo").innerHTML = `${xPlayer}'s turn`;
 	};// TODO: Complete the function
+}
+
+function playersName(player){
+	let playerName = prompt(`Please enter the name of the person playing ${player}.`);
+	if(playerName == null || playerName == ""){
+		return player;
+	}
+	return playerName;
 }
  
 function boardButtonClicked(button) {
@@ -113,26 +127,16 @@ function switchTurn() {
 	} else {
 		playerTurn = false;
 		if (checkForWinner() == 2) {
+			document.getElementById("turnInfo").classList.add("display-1", "text-danger");
 			document.getElementById("turnInfo").innerHTML = `${xPlayer} wins!`;
 		} else if (checkForWinner() == 3) {
+			document.getElementById("turnInfo").classList.add("display-1", "text-primary");
 			document.getElementById("turnInfo").innerHTML = `${oPlayer} wins!`;
 		} else {
+			document.getElementById("turnInfo").classList.add("display-1");
 			document.getElementById("turnInfo").innerHTML = "Draw game";
 		};
 	};
 	// TODO: Complete the function
 }
  
-function makeComputerMove() {
-	const buttonsOff = document.getElementById("gameBoard")
-	for (let i = 0; i < 1000; i++){
-	   let randomNum = Math.floor(Math.random()*9);
-	   if (buttonsOff.children[randomNum].innerHTML == ""){
-		  buttonsOff.children[randomNum].innerHTML = "O";
-		  buttonsOff.children[randomNum].setAttribute("class","o");
-		  buttonsOff.children[randomNum].setAttribute("disabled", true);
-		  switchTurn();
-		  return;
-	   };
-	} // TODO: Complete the function
-}
