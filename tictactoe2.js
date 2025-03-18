@@ -25,7 +25,7 @@ function domLoaded() {
 	}
 
 	// Clear the board
-	//newGame();
+	newGame();
 }
 
 // Returns an array of 9 <button> elements that make up the game board. The first 3 
