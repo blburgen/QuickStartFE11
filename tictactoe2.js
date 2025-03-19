@@ -15,7 +15,10 @@ window.addEventListener("DOMContentLoaded", domLoaded);
 function domLoaded() {
 	// Setup the click event for the "New game" button
 	const newBtn = document.getElementById("newGameButton");
-	newBtn.addEventListener("click", newGame);
+	newBtn.addEventListener("click", function(){newGame(false);});
+
+	const nameBtn = document.getElementById("newNames");
+	nameBtn.addEventListener("click", function(){newGame(true);});
 
 	// Create click-event handlers for each game board button
 	const buttons = getGameBoardButtons();
@@ -25,7 +28,7 @@ function domLoaded() {
 	}
 
 	// Clear the board
-	newGame();
+	newGame(false);
 }
 
 // Returns an array of 9 <button> elements that make up the game board. The first 3 
@@ -77,10 +80,12 @@ function checkForWinner() {
 	return gameStatus.DRAW_GAME;
 }
 
-function newGame() {
+function newGame(getNames) {
 	document.getElementById("newGameButton").setAttribute("disabled", true);
-	xPlayer = playersName("X");
-	oPlayer = playersName("O");
+	if(getNames == true){
+		xPlayer = playersName("X");
+		oPlayer = playersName("O");
+	}
 	document.getElementById("newGameButton").removeAttribute("disabled");
 	const buttonsOn = document.getElementById("gameBoard")
 	for (let i = 0; i < buttonsOn.children.length; i++) {
