@@ -1,5 +1,6 @@
 let playerTurn = true;
 let computerMoveTimeout = 0;
+let difficulty = 1;
 
 const gameStatus = {
 	MORE_MOVES_LEFT: 1,
@@ -12,8 +13,18 @@ window.addEventListener("DOMContentLoaded", domLoaded);
 
 function domLoaded() {
 	// Setup the click event for the "New game" button
-	const newBtn = document.getElementById("newGameButton");
-	newBtn.addEventListener("click", newGame);
+	const easyNewBtn = document.getElementById("easyNewGameButton");
+	easyNewBtn.addEventListener("click", newGame);
+
+	const mediumNewBtn = document.getElementById("mediumNewGameButton");
+	mediumNewBtn.addEventListener("click", () => {
+		difficulty = 2;
+		newGame();});
+
+	const hardNewBtn = document.getElementById("hardNewGameButton");
+	hardNewBtn.addEventListener("click", () => {
+		difficulty = 3;
+		newGame();});
 
 	// Create click-event handlers for each game board button
 	const buttons = getGameBoardButtons();
@@ -116,7 +127,119 @@ function newGame() {
  }
  
  function makeComputerMove() {
-	const buttonsOff = document.getElementById("gameBoard")
+	const buttonsOff = document.getElementById("gameBoard");
+	
+	const buttons = getGameBoardButtons();
+
+	// Ways to win
+	const possibilities = [
+		[0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+		[0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+		[0, 4, 8], [2, 4, 6] // diagonals
+	];
+
+	// Check to win
+	if (difficulty > 1) {
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "" &&
+				buttons[indices[1]].innerHTML === "O" &&
+				buttons[indices[2]].innerHTML === "O") {
+				
+				// Found a winner spot
+				buttons[indices[0]].innerHTML = "O";
+				buttons[indices[0]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[0]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
+	// Check to win
+	if(difficulty>2){
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "O" &&
+				buttons[indices[1]].innerHTML === "" &&
+				buttons[indices[2]].innerHTML === "O") {
+				
+				// Found a winner spot
+				buttons[indices[1]].innerHTML = "O";
+				buttons[indices[1]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[1]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
+	// Check to win
+	if(difficulty > 1){
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "O" &&
+				buttons[indices[1]].innerHTML === "O" &&
+				buttons[indices[2]].innerHTML === "") {
+				
+				// Found a winner spot
+				buttons[indices[2]].innerHTML = "O";
+				buttons[indices[2]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[2]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
+	// Check to stop win
+	if(difficulty > 1){
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "" &&
+				buttons[indices[1]].innerHTML === "X" &&
+				buttons[indices[2]].innerHTML === "X") {
+				
+				// Found a winner spot
+				buttons[indices[0]].innerHTML = "O";
+				buttons[indices[0]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[0]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
+	// Check to stop win
+	if(difficulty > 2){
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "X" &&
+				buttons[indices[1]].innerHTML === "" &&
+				buttons[indices[2]].innerHTML === "X") {
+				
+				// Found a winner spot
+				buttons[indices[1]].innerHTML = "O";
+				buttons[indices[1]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[1]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
+	// Check to stop win
+	if(difficulty > 1){
+		for (let indices of possibilities) {
+			if (buttons[indices[0]].innerHTML === "X" &&
+				buttons[indices[1]].innerHTML === "X" &&
+				buttons[indices[2]].innerHTML === "") {
+				
+				// Found a winner spot
+				buttons[indices[2]].innerHTML = "O";
+				buttons[indices[2]].setAttribute("class","text-primary bg-warning-subtle");
+				buttons[indices[2]].setAttribute("disabled", true);
+				switchTurn();
+				return;
+			}
+		}
+	}
+
 	for (let i = 0; i < 1000; i++){
 	   let randomNum = Math.floor(Math.random()*9);
 	   if (buttonsOff.children[randomNum].innerHTML == ""){
